@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Character : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class Character : MonoBehaviour
     }
 
     void Update() {
+        //Escape
+        if (Input.GetAxis("Cancel") > 0.1) {
+            SceneManager.LoadScene(0);
+        }
+
         //Character Movement
         characterRig.velocity = new Vector2(Input.GetAxis("Horizontal") * movementSpeed, characterRig.velocity.y);
 
@@ -90,10 +96,14 @@ public class Character : MonoBehaviour
         if (col.gameObject.tag == "Flip")
         {
             Flip();
+            jumped = false;
         }
         if (col.gameObject.tag == "Death")
         {
             Respawn();
+            jumped = false;
+            flipped = false;
+            characterRig.gravityScale = 1;
         }
     }
 
